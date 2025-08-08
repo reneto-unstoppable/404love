@@ -1,23 +1,22 @@
 "use client";
 import React, { useState, useEffect, useCallback } from 'react';
-import { generateProfileQuirks } from '@/ai/flows/generate-profile-quirks';
+import { generateRejectionReason } from '@/ai/flows/generate-rejection-reason';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { HeartCrack, Loader2, Ghost } from 'lucide-react';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Ghost, Loader2, Heart, ThumbsDown, CalendarPlus } from 'lucide-react';
 import Image from 'next/image';
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from 'next/navigation';
 
 const initialProfiles = [
-    { name: 'Clippy', age: 25, bio: 'It looks like you\'re trying to find love. Would you like some unsolicited advice?', image: 'https://placehold.co/128x128.png', dataAiHint: 'office supplies', desc: 'A helpful but ultimately annoying office assistant.' },
-    { name: 'A Sentient Toaster', age: 3, bio: 'Looking for someone to share my warmth with. I make great toast. That\'s it.', image: 'https://placehold.co/128x128.png', dataAiHint: 'toaster cartoon', desc: 'A kitchen appliance with feelings.' },
-    { name: 'Kevin', age: 32, bio: 'I own 17 ferrets. This is not a joke. Please help.', image: 'https://placehold.co/128x128.png', dataAiHint: 'man portrait', desc: 'A man overwhelmed by his life choices.' },
-    { name: 'The Void', age: '???', bio: 'Stare into me and I\'ll stare back. We can listen to sad music together.', image: 'https://placehold.co/128x128.png', dataAiHint: 'black hole', desc: 'An endless expanse of nothingness, but with good taste in music.' },
-    { name: 'A Single Shoe', age: 1, bio: 'I\'m a left shoe looking for my sole mate. Must be a righty.', image: 'https://placehold.co/128x128.png', dataAiHint: 'single shoe', desc: 'A lonely shoe.'},
-    { name: 'Person_Who_Peaked_In_High_School', age: 34, bio: 'I was the quarterback of the football team. I can throw this pigskin over them mountains.', image: 'https://placehold.co/128x128.png', dataAiHint: 'football player', desc: 'Still wears his letterman jacket.'},
-    { name: 'The_Robot', age: 2, bio: 'Processing... Love... is an illogical, inefficient human emotion. I must understand it.', image: 'https://placehold.co/128x128.png', dataAiHint: 'robot face', desc: 'A robot experiencing an existential crisis.'},
-    { name: 'Ghost of Boyfriends Past', age: 152, bio: 'I\'ll probably leave you on read for a few centuries.', image: 'https://placehold.co/128x128.png', dataAiHint: 'ghost', desc: 'A literal ghost.'},
-
+    { name: 'Clippy', age: 25, bio: 'It looks like you\'re trying to find love. Would you like some unsolicited advice?', image: 'https://placehold.co/128x128.png', dataAiHint: 'office supplies' },
+    { name: 'A Sentient Toaster', age: 3, bio: 'Looking for someone to share my warmth with. I make great toast. That\'s it.', image: 'https://placehold.co/128x128.png', dataAiHint: 'toaster cartoon' },
+    { name: 'Kevin', age: 32, bio: 'I own 17 ferrets. This is not a joke. Please help.', image: 'https://placehold.co/128x128.png', dataAiHint: 'man portrait' },
+    { name: 'The Void', age: '???', bio: 'Stare into me and I\'ll stare back. We can listen to sad music together.', image: 'https://placehold.co/128x128.png', dataAiHint: 'black hole' },
+    { name: 'A Single Shoe', age: 1, bio: 'I\'m a left shoe looking for my sole mate. Must be a righty.', image: 'https://placehold.co/128x128.png', dataAiHint: 'single shoe'},
+    { name: 'Person_Who_Peaked_In_High_School', age: 34, bio: 'I was the quarterback of the football team. I can throw this pigskin over them mountains.', image: 'https://placehold.co/128x128.png', dataAiHint: 'football player'},
+    { name: 'The_Robot', age: 2, bio: 'Processing... Love... is an illogical, inefficient human emotion. I must understand it.', image: 'https://placehold.co/128x128.png', dataAiHint: 'robot face'},
+    { name: 'Ghost of Boyfriends Past', age: 152, bio: 'I\'ll probably leave you on read for a few centuries.', image: 'https://placehold.co/128x128.png', dataAiHint: 'ghost'},
 ];
 
 type Profile = {
@@ -26,8 +25,6 @@ type Profile = {
     bio: string;
     image: string;
     dataAiHint: string;
-    desc: string;
-    quirks?: string[];
 };
 
 export default function GalleryPage() {
@@ -35,19 +32,71 @@ export default function GalleryPage() {
     const router = useRouter();
     const [profiles, setProfiles] = useState<Profile[]>(initialProfiles);
     const [isLoading, setIsLoading] = useState(false);
+    const [askingDate, setAskingDate] = useState<string | null>(null);
+    const [user, setUser] = useState<{username: string} | null>(null);
 
     useEffect(() => {
-        if (typeof window !== 'undefined' && !localStorage.getItem('profile')) {
+        if (typeof window !== 'undefined') {
+          const storedUser = localStorage.getItem('user');
+          if (storedUser) {
+            setUser(JSON.parse(storedUser));
+          } else {
             router.push('/');
+          }
         }
     }, [router]);
 
+    const handleAction = (profile: Profile, action: 'like' | 'dislike') => {
+      if (typeof window !== 'undefined') {
+        const key = action === 'like' ? 'likedProfiles' : 'dislikedProfiles';
+        const otherKey = action === 'like' ? 'dislikedProfiles' : 'likedProfiles';
+        
+        const currentList: Profile[] = JSON.parse(localStorage.getItem(key) || '[]');
+        const otherList: Profile[] = JSON.parse(localStorage.getItem(otherKey) || '[]');
 
-    if (isLoading) {
+        if (!currentList.some(p => p.name === profile.name)) {
+          localStorage.setItem(key, JSON.stringify([...currentList, profile]));
+        }
+
+        localStorage.setItem(otherKey, JSON.stringify(otherList.filter(p => p.name !== profile.name)));
+        
+        toast({ title: `You ${action}d ${profile.name.replace(/_/g, ' ')}!`, description: "Your choice has been recorded for future judgment."});
+      }
+    };
+
+    const handleAskForDate = async (profile: Profile) => {
+        setAskingDate(profile.name);
+        try {
+            await new Promise(resolve => setTimeout(resolve, 5000));
+            const { reason } = await generateRejectionReason({
+                userName: user?.username || "Someone",
+                profileName: profile.name.replace(/_/g, ' '),
+            });
+            toast({
+                title: 'It\'s not you, it\'s them.',
+                description: reason,
+                variant: 'destructive',
+                duration: 9000,
+            });
+        } catch (error) {
+            console.error("AI failed to be mean:", error);
+            toast({
+                title: 'Rejection Error',
+                description: "They rejected you so hard it broke our AI. Congratulations?",
+                variant: 'destructive',
+                duration: 9000,
+            });
+        } finally {
+            setAskingDate(null);
+        }
+    };
+
+
+    if (!user) {
         return (
             <div className="flex flex-col min-h-screen items-center justify-center bg-background text-primary">
                 <Loader2 className="h-16 w-16 animate-spin mb-4" />
-                <h1 className="font-headline text-2xl">Brewing Fresh Disappointments...</h1>
+                <h1 className="font-headline text-2xl">Loading...</h1>
             </div>
         );
     }
@@ -70,10 +119,23 @@ export default function GalleryPage() {
                             </CardHeader>
                             <CardContent className="p-0 mb-4 flex-grow">
                                 <p className="text-muted-foreground text-sm">
-                                    {profile.bio.length > 50 ? `${profile.bio.substring(0, 50)}...` : profile.bio}
+                                    {profile.bio}
                                 </p>
                             </CardContent>
-                            <Button variant="secondary" className="w-full" onClick={() => toast({ title: "Profile Not Available", description: "This person has been deleted from existence. Try someone else.", variant: "destructive" })}>View Profile</Button>
+                             <CardFooter className="w-full flex justify-center gap-2 p-0">
+                                <Button variant="outline" size="icon" className="text-green-500 hover:text-green-500 hover:bg-green-500/10 border-green-500/50" onClick={() => handleAction(profile, 'like')}><Heart /></Button>
+                                <Button variant="destructive" className="flex-grow" onClick={() => handleAskForDate(profile)} disabled={askingDate !== null}>
+                                    {askingDate === profile.name ? (
+                                        <>
+                                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                            Asking...
+                                        </>
+                                    ) : (
+                                       <><CalendarPlus className="mr-2"/> Ask For Date </> 
+                                    )}
+                                </Button>
+                                <Button variant="outline" size="icon" className="text-red-500 hover:text-red-500 hover:bg-red-500/10 border-red-500/50" onClick={() => handleAction(profile, 'dislike')}><ThumbsDown /></Button>
+                            </CardFooter>
                         </Card>
                     ))}
                 </div>

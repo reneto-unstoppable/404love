@@ -7,13 +7,13 @@ import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/
 
 type ProfileStats = {
   likes: number;
-  rejects: number;
+  rejections: number;
   dislikes: number;
 };
 
 export default function ProfilePage() {
   const [user, setUser] = useState<{ username: string } | null>(null);
-  const [stats, setStats] = useState<ProfileStats>({ likes: 0, rejects: 0, dislikes: 0 });
+  const [stats, setStats] = useState<ProfileStats>({ likes: 0, rejections: 0, dislikes: 0 });
 
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
@@ -24,7 +24,7 @@ export default function ProfilePage() {
     const updateStats = () => {
       const rejectionCount = JSON.parse(localStorage.getItem('rejectionCount') || '0');
       const dislikeCount = JSON.parse(localStorage.getItem('dislikeCount') || '0');
-      setStats({ likes: 0, rejects: rejectionCount, dislikes: dislikeCount });
+      setStats({ likes: 0, rejections: rejectionCount, dislikes: dislikeCount });
     };
 
     updateStats();
@@ -45,7 +45,7 @@ export default function ProfilePage() {
   }, []);
 
   const chartData = [
-    { name: 'Stats', likes: stats.likes, rejects: stats.rejects, dislikes: stats.dislikes },
+    { name: 'Stats', likes: stats.likes, rejections: stats.rejections, dislikes: stats.dislikes },
   ];
 
   return (
@@ -62,13 +62,13 @@ export default function ProfilePage() {
           <div className="space-y-4 text-center md:text-left">
             <h3 className="text-2xl font-bold text-primary">Your Stats of Sadness</h3>
             <p className="text-lg"><span className="font-semibold text-green-400">{stats.likes}</span> Likes (as expected)</p>
-            <p className="text-lg"><span className="font-semibold text-red-400">{stats.rejects}</span> Rejects (more on the way)</p>
+            <p className="text-lg"><span className="font-semibold text-red-400">{stats.rejections}</span> Rejections (more on the way)</p>
             <p className="text-lg"><span className="font-semibold text-yellow-400">{stats.dislikes}</span> Dislikes (no wonder)</p>
           </div>
           <div className="h-[250px] w-full">
             <ChartContainer config={{
                 likes: { label: 'Likes', color: 'hsl(var(--chart-2))' },
-                rejects: { label: 'Rejects', color: 'hsl(var(--chart-1))' },
+                rejections: { label: 'Rejections', color: 'hsl(var(--chart-1))' },
                 dislikes: { label: 'Dislikes', color: 'hsl(var(--chart-5))' },
             }}>
               <BarChart accessibilityLayer data={chartData} margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
@@ -78,7 +78,7 @@ export default function ProfilePage() {
                 <ChartTooltip content={<ChartTooltipContent />} />
                 <Legend />
                 <Bar dataKey="likes" fill="var(--color-likes)" radius={4} />
-                <Bar dataKey="rejects" fill="var(--color-rejects)" radius={4} />
+                <Bar dataKey="rejections" fill="var(--color-rejections)" radius={4} />
                 <Bar dataKey="dislikes" fill="var(--color-dislikes)" radius={4} />
               </BarChart>
             </ChartContainer>

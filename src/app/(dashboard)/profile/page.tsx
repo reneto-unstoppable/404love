@@ -22,10 +22,9 @@ export default function ProfilePage() {
     }
 
     const updateStats = () => {
-      const likedProfiles = JSON.parse(localStorage.getItem('likedProfiles') || '[]').length;
       const rejectionCount = JSON.parse(localStorage.getItem('rejectionCount') || '0');
       const dislikeCount = JSON.parse(localStorage.getItem('dislikeCount') || '0');
-      setStats({ likes: likedProfiles, rejects: rejectionCount, dislikes: dislikeCount });
+      setStats({ likes: 0, rejects: rejectionCount, dislikes: dislikeCount });
     };
 
     updateStats();

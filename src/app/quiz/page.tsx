@@ -7,11 +7,21 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Progress } from '@/components/ui/progress';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
+import { generateQuizQuestion } from '@/ai/flows/generate-quiz-question';
+import { Skeleton } from '@/components/ui/skeleton';
+
+type QuizQuestion = {
+  question: string;
+  options: string[];
+};
 
 export default function QuizPage() {
   const router = useRouter();
   const [progress, setProgress] = useState(13);
   const [step, setStep] = useState('analyzing'); // analyzing, quiz, result
+  const [questions, setQuestions] = useState<QuizQuestion[]>([]);
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [isLoadingQuestion, setIsLoadingQuestion] = useState(false);
 
   useEffect(() => {
     if (typeof window !== 'undefined' && !localStorage.getItem('profile')) {
@@ -22,7 +32,10 @@ export default function QuizPage() {
     if (step === 'analyzing') {
       const timer = setTimeout(() => setProgress(66), 500);
       const timer2 = setTimeout(() => setProgress(89), 1500);
-      const timer3 = setTimeout(() => setStep('quiz'), 2500);
+      const timer3 = setTimeout(() => {
+        setStep('quiz');
+        fetchQuestion();
+      }, 2500);
       return () => {
           clearTimeout(timer);
           clearTimeout(timer2);
@@ -31,8 +44,30 @@ export default function QuizPage() {
     }
   }, [step, router]);
 
-  const handleQuizSubmit = () => {
-    setStep('result');
+  const fetchQuestion = async () => {
+    setIsLoadingQuestion(true);
+    try {
+      const newQuestion = await generateQuizQuestion();
+      setQuestions(prev => [...prev, newQuestion]);
+    } catch (error) {
+      console.error("Failed to fetch question:", error);
+      // Fallback question
+      setQuestions(prev => [...prev, {
+        question: "Which potato shape best represents your dating history?",
+        options: ["Perfectly round, symmetrical", "Lumpy, bruised, oddly shaped", "A single, forgotten french fry"]
+      }]);
+    } finally {
+      setIsLoadingQuestion(false);
+    }
+  };
+
+  const handleNextQuestion = () => {
+    if (currentQuestionIndex < 1) { // 2 questions total (0, 1)
+      setCurrentQuestionIndex(prev => prev + 1);
+      fetchQuestion();
+    } else {
+      setStep('result');
+    }
   };
 
   const analyzingView = (
@@ -55,23 +90,33 @@ export default function QuizPage() {
         <CardDescription>Your answers are very important and will be ignored.</CardDescription>
       </CardHeader>
       <CardContent className="space-y-8">
-        <div className="space-y-4">
-            <h3 className="font-semibold">Which potato shape best represents your dating history?</h3>
-            <RadioGroup defaultValue="b">
-                <div className="flex items-center space-x-2"><RadioGroupItem value="a" id="q1a" /><Label htmlFor="q1a">Perfectly round, symmetrical</Label></div>
-                <div className="flex items-center space-x-2"><RadioGroupItem value="b" id="q1b" /><Label htmlFor="q1b">Lumpy, bruised, oddly shaped</Label></div>
-                <div className="flex items-center space-x-2"><RadioGroupItem value="c" id="q1c" /><Label htmlFor="q1c">A single, forgotten french fry</Label></div>
-            </RadioGroup>
-        </div>
-         <div className="space-y-4">
-            <h3 className="font-semibold">Pick your ideal first date location:</h3>
-            <RadioGroup defaultValue="a">
-                <div className="flex items-center space-x-2"><RadioGroupItem value="a" id="q2a" /><Label htmlFor="q2a">The DMV</Label></div>
-                <div className="flex items-center space-x-2"><RadioGroupItem value="b" id="q2b" /><Label htmlFor="q2b">IKEA’s rug aisle</Label></div>
-                <div className="flex items-center space-x-2"><RadioGroupItem value="c" id="q2c" /><Label htmlFor="q2c">Your ex’s wedding</Label></div>
-            </RadioGroup>
-        </div>
-        <Button className="w-full" onClick={handleQuizSubmit}>See The Damage</Button>
+        {isLoadingQuestion && !questions[currentQuestionIndex] ? (
+          <div className="space-y-4">
+            <Skeleton className="h-6 w-3/4" />
+            <div className="space-y-2">
+              <Skeleton className="h-5 w-1/2" />
+              <Skeleton className="h-5 w-1/2" />
+              <Skeleton className="h-5 w-1/2" />
+            </div>
+          </div>
+        ) : (
+          questions[currentQuestionIndex] && (
+            <div className="space-y-4">
+                <h3 className="font-semibold">{questions[currentQuestionIndex].question}</h3>
+                <RadioGroup defaultValue="b">
+                  {questions[currentQuestionIndex].options.map((option, index) => (
+                    <div key={index} className="flex items-center space-x-2">
+                      <RadioGroupItem value={`q${currentQuestionIndex}o${index}`} id={`q${currentQuestionIndex}o${index}`} />
+                      <Label htmlFor={`q${currentQuestionIndex}o${index}`}>{option}</Label>
+                    </div>
+                  ))}
+                </RadioGroup>
+            </div>
+          )
+        )}
+        <Button className="w-full" onClick={handleNextQuestion} disabled={isLoadingQuestion}>
+          {currentQuestionIndex < 1 ? 'Next Question' : 'See The Damage'}
+        </Button>
       </CardContent>
     </>
   );

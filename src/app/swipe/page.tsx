@@ -57,7 +57,7 @@ export default function GalleryPage() {
              <header className="flex justify-between items-center mb-8">
                 <div className="flex items-center gap-2">
                     <HeartCrack className="w-8 h-8 text-primary" />
-                    <h1 className="font-headline text-3xl font-bold text-primary">Error of the Heart</h1>
+                    <h1 className="font-headline text-3xl font-bold text-primary">Love404</h1>
                 </div>
             </header>
             

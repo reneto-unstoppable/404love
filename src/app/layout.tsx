@@ -3,8 +3,8 @@ import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 
 export const metadata: Metadata = {
-  title: 'Error of the Heart',
-  description: 'Where love is always buffering... and error!',
+  title: 'Love404',
+  description: 'Where love is not found... just a 404 error.',
 };
 
 export default function RootLayout({

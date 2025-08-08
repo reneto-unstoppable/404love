@@ -31,8 +31,8 @@ export default function LoginPage() {
     <main className="flex min-h-screen flex-col items-center justify-center p-8 bg-background">
       <div className="flex flex-col items-center text-center mb-8">
         <HeartCrack className="w-16 h-16 text-primary mb-4" />
-        <h1 className="font-headline text-5xl md:text-7xl font-bold text-primary">Error of the Heart</h1>
-        <p className="text-muted-foreground mt-2 text-lg">Where love is always buffering... and error!</p>
+        <h1 className="font-headline text-5xl md:text-7xl font-bold text-primary">Love404</h1>
+        <p className="text-muted-foreground mt-2 text-lg">Where love is not found... just a 404 error.</p>
       </div>
 
       <Card className="w-full max-w-md shadow-2xl bg-card/80 backdrop-blur-sm">

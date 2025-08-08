@@ -1,3 +1,4 @@
+
 import type {Config} from 'tailwindcss';
 
 export default {
@@ -49,7 +50,7 @@ export default {
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
         chart: {
-          '1': 'hsl(0 72% 51%)',     // Rejects (red)
+          '1': 'hsl(0 72% 51%)',     // Rejections (red)
           '2': 'hsl(142 71% 45%)', // Likes (green)
           '3': 'hsl(var(--chart-3))',
           '4': 'hsl(var(--chart-4))',

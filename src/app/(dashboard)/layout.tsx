@@ -2,7 +2,7 @@
 'use client';
 
 import React from 'react';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import {
   SidebarProvider,
   Sidebar,
@@ -29,12 +29,19 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   const router = useRouter();
+  const pathname = usePathname();
 
   const handleSignOut = () => {
-    localStorage.removeItem('user');
-    localStorage.removeItem('profile');
+    localStorage.clear();
     router.push('/');
   };
+
+  const menuItems = [
+    { href: '/profile', label: 'Profile', icon: User },
+    { href: '/actions', label: 'Actions', icon: Zap },
+    { href: '/search', label: 'Search', icon: Search },
+    { href: '/swipe', label: 'View Others', icon: Users },
+  ];
 
   return (
     <SidebarProvider>
@@ -49,42 +56,17 @@ export default function DashboardLayout({
         </SidebarHeader>
         <SidebarContent>
           <SidebarMenu>
-            <SidebarMenuItem>
-              <SidebarMenuButton
-                onClick={() => router.push('/create-profile')}
-                isActive={false}
-              >
-                <User />
-                Profile
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-            <SidebarMenuItem>
-              <SidebarMenuButton
-                onClick={() => router.push('/actions')}
-                isActive={false}
-              >
-                <Zap />
-                Actions
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-            <SidebarMenuItem>
-              <SidebarMenuButton
-                onClick={() => router.push('/search')}
-                isActive={false}
-              >
-                <Search />
-                Search
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-            <SidebarMenuItem>
-              <SidebarMenuButton
-                onClick={() => router.push('/swipe')}
-                isActive={true}
-              >
-                <Users />
-                View Others
-              </SidebarMenuButton>
-            </SidebarMenuItem>
+            {menuItems.map((item) => (
+                <SidebarMenuItem key={item.href}>
+                <SidebarMenuButton
+                    onClick={() => router.push(item.href)}
+                    isActive={pathname === item.href}
+                >
+                    <item.icon />
+                    {item.label}
+                </SidebarMenuButton>
+                </SidebarMenuItem>
+            ))}
           </SidebarMenu>
         </SidebarContent>
         <SidebarFooter>

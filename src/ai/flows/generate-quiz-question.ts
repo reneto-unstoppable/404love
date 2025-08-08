@@ -13,7 +13,7 @@ const QuizQuestionOutputSchema = z.object({
   question: z
     .string()
     .describe(
-      'A funny and absurd personality quiz question for a dating app.'
+      'A funny and absurd personality quiz question for a dating app with a dark sense of humor.'
     ),
   options: z
     .array(z.string())
@@ -29,13 +29,13 @@ export async function generateQuizQuestion(): Promise<QuizQuestionOutput> {
 const prompt = ai.definePrompt({
   name: 'quizQuestionPrompt',
   output: {schema: QuizQuestionOutputSchema},
-  prompt: `You are a creative AI for a satirical dating app called "Love404". Your task is to generate a single, funny, and nonsensical personality quiz question with three equally absurd multiple-choice answers.
+  prompt: `You are a creative AI for a satirical dating app called "Love404" with a dark sense of humor. Your task is to generate a single, funny, and nonsensical personality quiz question with three equally absurd multiple-choice answers.
 
 The goal is to be weird and humorous, not to actually assess personality.
 
 Example:
-Question: "Your ideal pet is:"
-Options: ["A rock with googly eyes", "A sentient cloud of glitter", "A Roomba with an existential crisis"]
+Question: "What's your favorite way to pass the time?"
+Options: ["Contemplating the heat death of the universe", "Staring into the void until it stares back", "Organizing my collection of existential dread memes"]
 
 Generate a new question and options.`,
 });

@@ -21,7 +21,7 @@ const GenerateBioFromQuizInputSchema = z.object({
 export type GenerateBioFromQuizInput = z.infer<typeof GenerateBioFromQuizInputSchema>;
 
 const GenerateBioFromQuizOutputSchema = z.object({
-  bio: z.string().describe('A new, short, funny, and slightly absurd bio for a dating profile, generated from the quiz answers.'),
+  bio: z.string().describe('A new, short, funny, and slightly absurd bio for a dating profile, generated from the quiz answers with a dark sense of humor.'),
 });
 export type GenerateBioFromQuizOutput = z.infer<typeof GenerateBioFromQuizOutputSchema>;
 
@@ -33,7 +33,7 @@ const prompt = ai.definePrompt({
   name: 'generateBioFromQuizPrompt',
   input: {schema: GenerateBioFromQuizInputSchema},
   output: {schema: GenerateBioFromQuizOutputSchema},
-  prompt: `You are a sarcastic AI assistant for a dating app called "Love404". Your task is to generate a new, short, and funny bio for a user based on their answers to a personality quiz. The bio should be humorous and slightly absurd.
+  prompt: `You are a sarcastic AI assistant for a dating app called "Love404" with a dark sense of humor. Your task is to generate a new, short, and funny bio for a user based on their answers to a personality quiz. The bio should be humorous, slightly absurd, and touch on dark humor themes.
 
 Here are the user's answers:
 {{#each questionsAndAnswers}}

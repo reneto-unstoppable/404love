@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import React, { useState, useEffect, useCallback } from 'react';
 import { generateRejectionReason } from '@/ai/flows/generate-rejection-reason';
 import { Button } from '@/components/ui/button';
@@ -78,6 +78,8 @@ export default function GalleryPage() {
                 variant: 'destructive',
                 duration: 9000,
             });
+            const currentRejections = parseInt(localStorage.getItem('rejectionCount') || '0', 10);
+            localStorage.setItem('rejectionCount', JSON.stringify(currentRejections + 1));
         } catch (error) {
             console.error("AI failed to be mean:", error);
             toast({

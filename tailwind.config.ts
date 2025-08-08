@@ -49,11 +49,11 @@ export default {
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
         chart: {
-          '1': 'hsl(var(--chart-1))',
-          '2': 'hsl(var(--chart-2))',
+          '1': 'hsl(0 72% 51%)',     // Rejects (red)
+          '2': 'hsl(142 71% 45%)', // Likes (green)
           '3': 'hsl(var(--chart-3))',
           '4': 'hsl(var(--chart-4))',
-          '5': 'hsl(var(--chart-5))',
+          '5': 'hsl(48 96% 50%)', // Dislikes (yellow)
         },
         sidebar: {
           DEFAULT: 'hsl(var(--card))',

@@ -53,14 +53,7 @@ export default function GalleryPage() {
     }
 
     return (
-        <div className="flex flex-col min-h-screen bg-background p-4 md:p-8">
-             <header className="flex justify-between items-center mb-8">
-                <div className="flex items-center gap-2">
-                    <HeartCrack className="w-8 h-8 text-primary" />
-                    <h1 className="font-headline text-3xl font-bold text-primary">Love404</h1>
-                </div>
-            </header>
-            
+        <div className="flex flex-col min-h-screen p-4 md:p-8">
             <main className="flex-grow">
                 <div className="text-center mb-8">
                     <Ghost className="w-12 h-12 text-primary mx-auto mb-2"/>

@@ -21,7 +21,7 @@ const profileFormSchema = z.object({
   displayName: z.string().optional(),
   emotionalAge: z.coerce.number({invalid_type_error: "Please enter a number."}).min(0, "Age can't be negative.").max(1000, "Are you a vampire?"),
   favoriteConspiracy: z.string().min(3, "Surely you can think of something better."),
-  spiritVegetable: z.string().min(2, "Even a potato is better than nothing."),
+  spiritVegetable: z.enum(['existentially_dread_inducing_potato', 'philosophical_bell_pepper', 'melancholic_turnip', 'sassy_shallot']),
   loveLanguage: z.enum(['sarcasm', 'ghosting']),
   believesInLove: z.boolean().default(false).optional(),
   profileDescription: z.string().min(10, "Give us something to work with.").max(200, "This isn't your diary."),
@@ -51,7 +51,7 @@ export function ProfileForm() {
       believesInLove: true,
       emotionalAge: 27,
       favoriteConspiracy: "The moon is a projection",
-      spiritVegetable: "A forlorn carrot",
+      spiritVegetable: "melancholic_turnip",
       profileDescription: "I enjoy long, awkward silences and pretending to read books in public.",
     },
   });
@@ -62,7 +62,7 @@ export function ProfileForm() {
       Display Name: ${data.displayName || `HotSingle_${Math.floor(Math.random() * 900) + 100}`}
       Emotional Age: ${data.emotionalAge}
       Favorite Conspiracy: ${data.favoriteConspiracy}
-      Spirit Vegetable: ${data.spiritVegetable}
+      Spirit Vegetable: ${data.spiritVegetable.replace(/_/g, ' ')}
       Love Language: ${data.loveLanguage}
       Believes in love at first site: ${data.believesInLove ? 'Yes' : 'No'}
       Profile Description: ${data.profileDescription}
@@ -151,9 +151,19 @@ export function ProfileForm() {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Spirit Vegetable</FormLabel>
-                  <FormControl>
-                    <Input placeholder="A melancholic turnip" {...field} />
-                  </FormControl>
+                   <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select your kindred vegetable" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="existentially_dread_inducing_potato">Existentially Dread-Inducing Potato</SelectItem>
+                      <SelectItem value="philosophical_bell_pepper">Philosophical Bell Pepper</SelectItem>
+                      <SelectItem value="melancholic_turnip">Melancholic Turnip</SelectItem>
+                      <SelectItem value="sassy_shallot">Sassy Shallot</SelectItem>
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}

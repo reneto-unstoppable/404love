@@ -49,6 +49,12 @@ export default function ProfilePage() {
     { name: 'Stats', likes: stats.likes, rejections: stats.rejections, dislikes: stats.dislikes },
   ];
 
+  const chartConfig = {
+    likes: { label: 'Likes', color: 'hsl(var(--chart-2))' },
+    rejections: { label: 'Rejections', color: 'hsl(var(--chart-1))' },
+    dislikes: { label: 'Dislikes', color: 'hsl(var(--chart-5))' },
+  };
+
   return (
     <div className="flex flex-col min-h-screen items-center justify-center p-4 md:p-8 bg-background text-foreground">
       <Card className="w-full max-w-4xl shadow-2xl bg-card/80 backdrop-blur-sm">
@@ -67,11 +73,7 @@ export default function ProfilePage() {
             <p className="text-lg"><span className="font-semibold text-yellow-400">{stats.dislikes}</span> Dislikes (no wonder)</p>
           </div>
           <div className="h-[250px] w-full">
-            <ChartContainer config={{
-                likes: { label: 'Likes', color: 'hsl(var(--chart-2))' },
-                rejections: { label: 'Rejections', color: 'hsl(var(--chart-1))' },
-                dislikes: { label: 'Dislikes', color: 'hsl(var(--chart-5))' },
-            }}>
+            <ChartContainer config={chartConfig}>
               <BarChart accessibilityLayer data={chartData} margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
                 <CartesianGrid vertical={false} />
                 <XAxis dataKey="name" tickLine={false} axisLine={false} tickMargin={8} />

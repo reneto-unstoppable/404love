@@ -1,74 +1,157 @@
-# Love404 - Where love is not found... just a 404 error.
+Alright Reno — here’s your **404Love README** fully rewritten in the same style as the Fridge Whisperer sample, with your **team name, members, and screenshots** integrated.
 
-Welcome to Love404, the satirical dating app that embraces the chaos and absurdity of modern romance. This project is a Next.js application built with a dark sense of humor, featuring AI-powered interactions to create a uniquely funny and cynical user experience.
+---
+
+# Love404 💔
+
+Where love is not found… just a 404 error.
+
+---
+
+## Basic Details
+
+**Team Name:** Byte Warriors
+**Team Members**
+
+* **Team Lead:** Reneto Noble – \[NSS Engineering College Palakkad]
+* **Member 2:** V Deepak – \[NSS Engineering College Palakkad]
+
+---
+
+## Project Description
+
+**Love404** is a satirical dating app that embraces the chaos and absurdity of modern romance. Built with a dark sense of humor, it uses AI-powered interactions to deliver witty rejections, absurd bios, and cynical “romantic” experiences. This is not your regular dating app — it’s an anti-love simulator where the only thing you’re guaranteed is a good laugh and a healthy dose of disappointment.
+
+---
 
 ## The Problem (that we all secretly enjoy)
 
-Tired of dating apps promising you a soulmate, only to deliver a stream of awkward conversations and ghosting? We are too. The real problem isn't finding love; it's the crushing disappointment when you don't. So we decided to lean into the chaos.
+Tired of dating apps promising you a soulmate, only to deliver awkward conversations, ghosting, and heartbreak? The real problem isn’t finding love — it’s surviving the crushing disappointment when you don’t. So instead of fighting it, we decided to celebrate it.
+
+---
 
 ## The Solution (that nobody asked for)
 
-Introducing Love404, an app that guarantees you'll find... well, not much. Instead of matches, you get witty rejections from an AI. Instead of a personality test, you get a nonsensical quiz that generates a bio you'd never write yourself. It’s all the fun of dating apps, with none of the pressure to actually find someone.
+Introducing **Love404** — the dating app that doesn’t even try to help you find love. Instead of matches, you get witty AI-generated rejections. Instead of personality tests, you get a nonsense quiz that builds a ridiculous bio you’d never write yourself. It’s the full dating app experience… minus the romance.
+
+---
 
 ## Technical Details
 
-### Technologies/Components Used
+**Technologies/Components Used**
 
-- **Framework**: [Next.js](https://nextjs.org/) (with App Router)
-- **Language**: [TypeScript](https://www.typescriptlang.org/)
-- **Styling**: [Tailwind CSS](https://tailwindcss.com/) & [ShadCN/UI](https://ui.shadcn.com/)
-- **Generative AI**: [Firebase Genkit](https://firebase.google.com/docs/genkit) for real-time content generation.
-- **Deployment**: [Firebase App Hosting](https://firebase.google.com/docs/hosting)
+**For Software:**
+
+* **Frontend & Backend Framework:** Next.js (with App Router)
+* **Language:** TypeScript
+* **Styling:** Tailwind CSS & ShadCN/UI
+* **Generative AI:** Firebase Genkit for real-time content generation
+* **Deployment:** Firebase App Hosting
+
+---
 
 ## Implementation
 
+**For Software:**
+
 ### Installation
 
-1.  **Clone the repository:**
-    ```bash
-    git clone https://github.com/your-username/love404.git
-    ```
-2.  **Navigate into the project folder:**
-    ```bash
-    cd love404
-    ```
-3.  **Install dependencies:**
-    ```bash
-    npm install
-    ```
-4.  **Set up Environment Variables:**
-    Create a `.env.local` file in the root and add your Gemini API Key.
-    ```
+1. **Clone the repository**
 
+```bash
+git clone https://github.com/reneto-unstoppable/404Love.git
+```
+
+2. **Navigate into the project folder**
+
+```bash
+cd 404Love
+```
+
+3. **Install dependencies**
+
+```bash
+npm install
+```
+
+4. **Set up Environment Variables**
+   Create a `.env.local` file in the root and add your Gemini API Key.
+
+---
 
 ### Run
 
-1.  **Start the development server:**
-    ```bash
-    npm run dev
-    ```
-2.  **Start the Genkit Inspector (in a separate terminal):**
-    ```bash
-    npm run genkit:dev
-    ```
-    Open [http://localhost:9002](http://localhost:9002) with your browser to see the result.
+**Start the development server**
+
+```bash
+npm run dev
+```
+
+**Start the Genkit Inspector (in a separate terminal)**
+
+```bash
+npm run genkit:dev
+```
+
+Then open [http://localhost:9002](http://localhost:9002) in your browser.
+
+---
 
 ## Project Documentation
 
-### Key Features
+**For Software:**
 
-- **Anonymous Login**: No need for a real account. Get a randomly generated, meme-worthy username and dive right in.
-- **AI-Generated Personality Quiz**: The app generates absurd quiz questions in real-time. Your answers are then used to craft a new, funny, and slightly dark bio for your profile.
-- **Creative Rejection Reasons**: When you ask a profile out, our AI generates a unique and humorous reason why it'll never work out.
-- **The "Stats of Sadness" Profile Page**: Track your romantic (mis)adventures with a bar chart showing your rejections and dislikes. The dislike count automatically increases over time, because why not?
-- **Interactive Swiping**: Like, dislike, or take a leap of faith and ask a profile for a date. All your questionable choices are tracked on the Actions page.
+### Screenshots
 
-### Workflow
+![login](https://github.com/reneto-unstoppable/404love/blob/main/assests/Screenshot%202025-08-09%20040101.png)
+*Login screen with anonymous entry and meme-worthy usernames.*
 
-1.  A user logs in anonymously and creates a profile with absurd fields.
-2.  The user takes a 5-question quiz with nonsensical, AI-generated questions and options.
-3.  Based on the answers, Genkit generates a new, funny bio for the user.
-4.  The user can then browse a gallery of equally absurd profiles.
-5.  When the user tries to connect with a profile, they receive an AI-generated rejection.
-6.  The profile page tracks all these rejections and dislikes in a "Stats of Sadness" chart.
+![quiz](https://github.com/reneto-unstoppable/404love/blob/main/assests/Screenshot%202025-08-09%20055430.png)
+*AI-generated absurd personality quiz with nonsensical questions.*
+
+![profile](https://github.com/reneto-unstoppable/404love/blob/main/assests/Screenshot%202025-08-09%20055619.png)
+*Profile page with “Stats of Sadness” bar chart tracking rejections and dislikes.*
+
+![rejection](https://github.com/reneto-unstoppable/404love/blob/main/assests/Screenshot%202025-08-09%20055656.png)
+*Custom AI-crafted rejection messages when asking a profile out.*
+
+![swiping](https://github.com/reneto-unstoppable/404love/blob/main/assests/Screenshot%202025-08-09%20060033.png)
+*Interactive swiping interface to like, dislike, or take a leap of faith.*
+
+---
+
+### Diagrams
+
+**Workflow:**
+
+1. User logs in anonymously.
+2. Takes a 5-question nonsense quiz.
+3. AI (Firebase Genkit) generates a funny, dark bio.
+4. User browses absurd profiles.
+5. Attempting to date results in unique AI-generated rejections.
+6. Profile tracks rejections and dislikes in a “Stats of Sadness” chart.
+
+---
+
+## Build Photos
+
+*(Optional — can add hackathon/team working pictures if available.)*
+
+---
+
+## Project Demo
+
+**Video:** 
+
+
+---
+
+## Team Contributions
+
+* **Reneto Noble:** Full-stack development, AI integration, UI design, deployment.
+* **V Deepak:** Frontend enhancements, feature ideas, testing.
+
+---
+
+**Made with ❤ at TinkerHub Useless Hackathon**
 

@@ -49,7 +49,7 @@ export default function LoginPage() {
             <Label htmlFor="password">Password (Will be stored in plain text)</Label>
             <Input id="password" type="password" placeholder="••••••••••••••" />
           </div>
-          <Button variant="secondary" className="w-full" onClick={() => alert("Error: Success is not an option.")}>Sign In / Up (Good luck)</Button>
+          <Button variant="secondary" className="w-full" onClick={() => alert("Error: Success is not an option.")}>Sign In / Up (Won't work)</Button>
           <div className="relative my-4">
             <div className="absolute inset-0 flex items-center">
               <span className="w-full border-t" />

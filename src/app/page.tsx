@@ -1,3 +1,4 @@
+
 "use client";
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
@@ -42,7 +43,7 @@ export default function LoginPage() {
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="username">Username (Optional, we'll ignore it)</Label>
+            <Label htmlFor="username">Username (Not going to matter anyway)</Label>
             <Input id="username" placeholder="YourBestMistake" />
           </div>
           <div className="space-y-2">
